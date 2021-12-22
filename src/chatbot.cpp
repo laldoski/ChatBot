@@ -2,6 +2,7 @@
 #include <random>
 #include <algorithm>
 #include <ctime>
+#include <fstream>
 
 #include "chatlogic.h"
 #include "graphnode.h"
@@ -33,13 +34,19 @@ ChatBot::ChatBot(std::string filename)
 ChatBot::~ChatBot()
 {
     std::cout << "ChatBot Destructor" << std::endl;
+    
+
+
 
     // deallocate heap memory
     if(_image != NULL) // Attention: wxWidgets used NULL and not nullptr
     {
-        delete _image;
+       
+        delete _image; 
         _image = NULL;
+        
     }
+    
 }
 
 //// STUDENT CODE
@@ -61,6 +68,10 @@ void ChatBot::ReceiveMessageFromUser(std::string message)
         {
             EdgeDist ed{edge, ComputeLevenshteinDistance(keyword, message)};
             levDists.push_back(ed);
+           // std::ofstream myfile;
+            //myfile.open("myfile.txt");
+            //myfile << levDists;
+
         }
     }
 
@@ -80,13 +91,15 @@ void ChatBot::ReceiveMessageFromUser(std::string message)
 
     // tell current node to move chatbot to new node
     _currentNode->MoveChatbotToNewNode(newNode);
-}
+    
+    }
 
 void ChatBot::SetCurrentNode(GraphNode *node)
 {
     // update pointer to current node
     _currentNode = node;
-
+    std::cout<<"*node: "<<node<<std::endl; 
+     std ::cout <<"*node: "<<static_cast<void*>(node)<<std::endl;
     // select a random node answer (if several answers should exist)
     std::vector<std::string> answers = _currentNode->GetAnswers();
     std::mt19937 generator(int(std::time(0)));

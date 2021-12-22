@@ -1,8 +1,8 @@
 #ifndef CHATGUI_H_
 #define CHATGUI_H_
-
+#include <memory>
 #include <wx/wx.h>
-
+#include "chatlogic.h"
 class ChatLogic; // forward declaration
 
 // middle part of the window containing the dialog between user and chatbot
@@ -16,7 +16,8 @@ private:
     //// STUDENT CODE
     ////
 
-    ChatLogic *_chatLogic;
+  //Lava ChatLogic *_chatLogic;
+  std::unique_ptr<ChatLogic> _chatLogic;
 
     ////
     //// EOF STUDENT CODE
@@ -27,8 +28,8 @@ public:
     ~ChatBotPanelDialog();
 
     // getter / setter
-    ChatLogic *GetChatLogicHandle() { return _chatLogic; }
-
+  // std::unique_ptr<ChatLogic> &GetChatLogicHandle() { return _chatLogic; }
+     wxBitmap *wrapperfunctionGetImageFromChatbot() {return _chatLogic->GetImageFromChatbot();}
     // events
     void paintEvent(wxPaintEvent &evt);
     void paintNow();

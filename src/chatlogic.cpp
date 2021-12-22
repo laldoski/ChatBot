@@ -5,7 +5,7 @@
 #include <iterator>
 #include <tuple>
 #include <algorithm>
-
+#include <memory>
 #include "graphedge.h"
 #include "graphnode.h"
 #include "chatbot.h"
@@ -88,16 +88,18 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
             while (lineStr.size() > 0)
             {
                 // extract next token
-                int posTokenFront = lineStr.find("<");
+                int posTokenFront = lineStr.find("<"); 
                 int posTokenBack = lineStr.find(">");
+               
                 if (posTokenFront < 0 || posTokenBack < 0)
                     break; // quit loop if no complete token has been found
                 std::string tokenStr = lineStr.substr(posTokenFront + 1, posTokenBack - 1);
-
+               
                 // extract token type and info
                 int posTokenInfo = tokenStr.find(":");
                 if (posTokenInfo != std::string::npos)
                 {
+                   
                     std::string tokenType = tokenStr.substr(0, posTokenInfo);
                     std::string tokenInfo = tokenStr.substr(posTokenInfo + 1, tokenStr.size() - 1);
 
@@ -119,7 +121,7 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
                 {
                     // extract id from token
                     int id = std::stoi(idToken->second);
-
+                 
                     // node-based processing
                     if (type->second == "NODE")
                     {
@@ -128,10 +130,12 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
 
                         // check if node with this ID exists already
                         auto newNode = std::find_if(_nodes.begin(), _nodes.end(), [&id](GraphNode *node) { return node->GetID() == id; });
-
+                        
                         // create new element if ID does not yet exist
                         if (newNode == _nodes.end())
                         {
+
+                       //Lava  _nodes.emplace_back(std::unique_ptr<ChatLogic>_nodes(new GraphNode(id));
                             _nodes.emplace_back(new GraphNode(id));
                             newNode = _nodes.end() - 1; // get iterator to last element
 
@@ -171,6 +175,7 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
                             // store reference in child node and parent node
                             (*childNode)->AddEdgeToParentNode(edge);
                             (*parentNode)->AddEdgeToChildNode(edge);
+                           
                         }
 
                         ////
@@ -245,5 +250,9 @@ void ChatLogic::SendMessageToUser(std::string message)
 
 wxBitmap *ChatLogic::GetImageFromChatbot()
 {
+    if (_chatBot ==NULL)
+      std::cout<<"_chatBot is NULL"<<std::endl;
     return _chatBot->GetImageHandle();
 }
+ChatBotPanelDialog::ChatBotPanelDialog(wxWindow *parent, wxWindowID id){_chatLogic=NULL;};
+ChatBotPanelDialog::~ChatBotPanelDialog()= default;
