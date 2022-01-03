@@ -5,7 +5,7 @@
 #include <iterator>
 #include <tuple>
 #include <algorithm>
-#include <memory>
+
 #include "graphedge.h"
 #include "graphnode.h"
 #include "chatbot.h"
@@ -134,8 +134,6 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
                         // create new element if ID does not yet exist
                         if (newNode == _nodes.end())
                         {
-
-                       //Lava  _nodes.emplace_back(std::unique_ptr<ChatLogic>_nodes(new GraphNode(id));
                             _nodes.emplace_back(new GraphNode(id));
                             newNode = _nodes.end() - 1; // get iterator to last element
 
@@ -250,9 +248,5 @@ void ChatLogic::SendMessageToUser(std::string message)
 
 wxBitmap *ChatLogic::GetImageFromChatbot()
 {
-    if (_chatBot ==NULL)
-      std::cout<<"_chatBot is NULL"<<std::endl;
     return _chatBot->GetImageHandle();
 }
-ChatBotPanelDialog::ChatBotPanelDialog(wxWindow *parent, wxWindowID id){_chatLogic=NULL;};
-ChatBotPanelDialog::~ChatBotPanelDialog()= default;

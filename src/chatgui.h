@@ -16,10 +16,10 @@ private:
     //// STUDENT CODE
     ////
 
-  //Lava ChatLogic *_chatLogic;
-  std::unique_ptr<ChatLogic> _chatLogic;
+   //lava ChatLogic *_chatLogic;
 
-    ////
+    ////Lava
+    std::unique_ptr<ChatLogic> _chatLogic;
     //// EOF STUDENT CODE
 
 public:
@@ -28,8 +28,8 @@ public:
     ~ChatBotPanelDialog();
 
     // getter / setter
-  // std::unique_ptr<ChatLogic> &GetChatLogicHandle() { return _chatLogic; }
-     wxBitmap *wrapperfunctionGetImageFromChatbot() {return _chatLogic->GetImageFromChatbot();}
+    ChatLogic *GetChatLogicHandle() { return _chatLogic; }
+
     // events
     void paintEvent(wxPaintEvent &evt);
     void paintNow();

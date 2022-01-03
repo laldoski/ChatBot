@@ -120,11 +120,11 @@ ChatBotPanelDialog::ChatBotPanelDialog(wxWindow *parent, wxWindowID id)
     ////
 
     // create chat logic instance
-   //Lava _chatLogic = new ChatLogic(); 
+   //~ _chatLogic = new ChatLogic(); 
 
-   //  std::unique_ptr<ChatLogic> _chatLogic(new ChatLogic()); 
-      _chatLogic=std::make_unique<ChatLogic>(new ChatLogic());
-   
+    // std::unique_ptr<ChatLogic> _chatLogic(new ChatLogic()); 
+    _chatLogic = std::make_unique<ChatLogic> (new ChatLogic());
+    
     // pass pointer to chatbot dialog so answers can be displayed in GUI
     _chatLogic->SetPanelDialogHandle(this);
 
@@ -140,7 +140,7 @@ ChatBotPanelDialog::~ChatBotPanelDialog()
     //// STUDENT CODE
     ////
 
-    //lava delete _chatLogic;
+    //~delete _chatLogic;
 
     ////
     //// EOF STUDENT CODE
@@ -200,8 +200,8 @@ ChatBotPanelDialogItem::ChatBotPanelDialogItem(wxPanel *parent, wxString text, b
     : wxPanel(parent, -1, wxPoint(-1, -1), wxSize(-1, -1), wxBORDER_NONE)
 {
     // retrieve image from chatbot
-   //Lava wxBitmap *bitmap = isFromUser == true ? nullptr : ((ChatBotPanelDialog*)parent)->GetChatLogicHandle()->GetImageFromChatbot(); 
-    wxBitmap *bitmap = isFromUser == true ? nullptr : ((ChatBotPanelDialog*)parent)->wrapperfunctionGetImageFromChatbot();
+    wxBitmap *bitmap = isFromUser == true ? nullptr : ((ChatBotPanelDialog*)parent)->GetChatLogicHandle()->GetImageFromChatbot(); 
+
     // create image and text
     _chatBotImg = new wxStaticBitmap(this, wxID_ANY, (isFromUser ? wxBitmap(imgBasePath + "user.png", wxBITMAP_TYPE_PNG) : *bitmap), wxPoint(-1, -1), wxSize(-1, -1));
     _chatBotTxt = new wxStaticText(this, wxID_ANY, text, wxPoint(-1, -1), wxSize(150, -1), wxALIGN_CENTRE | wxBORDER_NONE);
@@ -219,4 +219,3 @@ ChatBotPanelDialogItem::ChatBotPanelDialogItem(wxPanel *parent, wxString text, b
     // set background color
     this->SetBackgroundColour((isFromUser == true ? wxT("YELLOW") : wxT("BLUE")));
 }
- 
