@@ -40,17 +40,54 @@ ChatBot::~ChatBot()
 
     // deallocate heap memory
     if(_image != NULL) // Attention: wxWidgets used NULL and not nullptr
-    {
-       
+    { 
         delete _image; 
-        _image = NULL;
-        
+        _image = NULL;   
     }
     
 }
 
 //// STUDENT CODE
 ////
+ChatBot::ChatBot(const ChatBot &&source)  //copy constructor
+{    
+     *_image = *source._image;
+      _chatLogic = nullptr;
+      _rootNode = nullptr;
+      _currentNode = nullptr;
+     
+}
+
+ChatBot & ChatBot::operator=(const ChatBot &source) //copy assignment operator
+{
+    if (this == &source)
+    {
+        return *this;
+    }
+    if (_image != nullptr)
+    {
+        delete _image;
+    }
+    *_image = *source._image;
+     _chatLogic = source._chatLogic;
+     _rootNode = source._rootNode;
+     _currentNode = source._currentNode;
+    
+    return *this;
+}
+
+ChatBot::ChatBot(ChatBot &&source) //move constructor
+{
+
+    _image = source._image;
+    source._image = nullptr;
+    _chatLogic = source._chatLogic;
+    source._chatLogic = nullptr;
+    _rootNode = source._rootNode;
+    source._rootNode = nullptr;
+    _currentNode = source._currentNode;
+    source._currentNode = nullptr;
+}
 
 ////
 //// EOF STUDENT CODE
@@ -68,10 +105,7 @@ void ChatBot::ReceiveMessageFromUser(std::string message)
         {
             EdgeDist ed{edge, ComputeLevenshteinDistance(keyword, message)};
             levDists.push_back(ed);
-           // std::ofstream myfile;
-            //myfile.open("myfile.txt");
-            //myfile << levDists;
-
+           
         }
     }
 
@@ -98,8 +132,7 @@ void ChatBot::SetCurrentNode(GraphNode *node)
 {
     // update pointer to current node
     _currentNode = node;
-    std::cout<<"*node: "<<node<<std::endl; 
-     std ::cout <<"*node: "<<static_cast<void*>(node)<<std::endl;
+
     // select a random node answer (if several answers should exist)
     std::vector<std::string> answers = _currentNode->GetAnswers();
     std::mt19937 generator(int(std::time(0)));
