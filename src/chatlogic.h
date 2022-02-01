@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <string>
+#include <utility>
 #include "chatgui.h"
 #include "chatbot.h"
 #include "graphedge.h"

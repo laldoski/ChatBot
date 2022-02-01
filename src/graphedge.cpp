@@ -18,7 +18,6 @@ void GraphEdge::SetParentNode(GraphNode *parentNode)
 
 void GraphEdge::AddToken(std::string token)
 {
-    std::cout << "Before: " << token <<std::endl;
     _keywords.push_back(token);
-    std::cout << "After : " << token <<std::endl;
+   
 }

@@ -35,7 +35,7 @@ ChatBotFrame::ChatBotFrame(const wxString &title) : wxFrame(NULL, wxID_ANY, titl
 
     // create controls and assign them to control panel
     _panelDialog = new ChatBotPanelDialog(ctrlPanel, wxID_ANY);
-      std::cout <<"_panelDialog:"<<_panelDialog <<std::endl;
+     
     // create text control for user input
     int idTextXtrl = 1;
     _userTextCtrl = new wxTextCtrl(ctrlPanel, idTextXtrl, "", wxDefaultPosition, wxSize(width, 50), wxTE_PROCESS_ENTER, wxDefaultValidator, wxTextCtrlNameStr);
