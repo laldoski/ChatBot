@@ -33,20 +33,19 @@ ChatLogic::~ChatLogic()
     ////
 
     // delete chatbot instance
-    delete _chatBot;
+   // delete _chatBot;
 
     // delete all nodes
-    //Lava for (auto it = std::begin(_nodes); it != std::end(_nodes); ++it)
-    //Lava {
-    //Lava    delete *it;
-    //Lava }
+    //for (auto it = std::begin(_nodes); it != std::end(_nodes); ++it)
+    // {
+    //    delete *it;
+    // }
 
     // delete all edges
-    //Lava for (auto it = std::begin(_edges); it != std::end(_edges); ++it)
-    //Lava{
-    //Lava    delete *it;
-    //Lava}
-
+    //for (auto it = std::begin(_edges); it != std::end(_edges); ++it)
+    //{
+    //    delete *it;
+    //}
     ////
     //// EOF STUDENT CODE
 }
@@ -129,13 +128,12 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
                         ////
 
                         // check if node with this ID exists already
-                        auto newNode = std::find_if(_nodes.begin(), _nodes.end(), [&id](const std::unique_ptr<GraphNode> &node) { return node.get()->GetID() == id; });
+                        auto newNode = std::find_if(_nodes.begin(), _nodes.end(), [&id](std::unique_ptr<GraphNode> &node) { return node.get()->GetID() == id; });
                         
                         // create new element if ID does not yet exist
                         if (newNode == _nodes.end())
                         {
-                           //Lava _nodes.emplace_back(new GraphNode(id));
-                            
+
                              _nodes.push_back(std::make_unique<GraphNode>(id));
                             newNode = _nodes.end() - 1; // get iterator to last element
 
@@ -160,25 +158,21 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
                         if (parentToken != tokens.end() && childToken != tokens.end())
                         {
                             // get iterator on incoming and outgoing node via ID search
-                            const auto & parentNode = std::find_if(_nodes.begin(), _nodes.end(), [&parentToken](const std::unique_ptr<GraphNode> &node) { return node.get()->GetID() == std::stoi(parentToken->second); });
-                            const auto & childNode = std::find_if(_nodes.begin(), _nodes.end(), [&childToken](const std::unique_ptr<GraphNode> &node) { return node.get()->GetID() == std::stoi(childToken->second); });
+                            const auto & parentNode = std::find_if(_nodes.begin(), _nodes.end(), [&parentToken](std::unique_ptr<GraphNode> &node) { return node.get()->GetID() == std::stoi(parentToken->second); });
+                            const auto & childNode = std::find_if(_nodes.begin(), _nodes.end(), [&childToken](std::unique_ptr<GraphNode> &node) { return node.get()->GetID() == std::stoi(childToken->second); });
                     
                             // create new edge
-                          //Lava  GraphEdge *edge = new GraphEdge(id);
                           std::unique_ptr<GraphEdge> edge = std::make_unique<GraphEdge>(id);
 
                             edge->SetChildNode((*childNode).get());
 
                             edge->SetParentNode((*parentNode).get());
-                           // _edges.push_back(std::move(edge));
-
+                           
                             // find all keywords for current node
                           //  AddAllTokensToElement("KEYWORD", tokens,*_edges.back());
                             AddAllTokensToElement("KEYWORD", tokens,*edge);
                             // store reference in child node and parent node
-                           // (*childNode)->AddEdgeToParentNode(_edges.back().get());
                             (*childNode)->AddEdgeToParentNode(edge.get());
-                           // (*parentNode)->AddEdgeToChildNode(_edges.back());
                             (*parentNode)->AddEdgeToChildNode(std::move(edge));
                         }
 
@@ -235,8 +229,7 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
     ChatBot chatBot("../images/chatbot.png");
     chatBot.SetChatLogicHandle(this);
     chatBot.SetRootNode(rootNode);
-    _chatBot = new ChatBot (std::move(chatBot));
-    rootNode->MoveChatbotHere(_chatBot);
+    rootNode->MoveChatbotHere(std::move(chatBot));
     
     ////
     //// EOF STUDENT CODE

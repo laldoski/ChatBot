@@ -16,9 +16,6 @@ private:
     //// STUDENT CODE
     ////
 
-   //lava ChatLogic *_chatLogic;
-
-    ////Lava
     std::unique_ptr<ChatLogic> _chatLogic;
     //// EOF STUDENT CODE
 
